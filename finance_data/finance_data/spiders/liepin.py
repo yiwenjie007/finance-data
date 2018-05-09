@@ -6,16 +6,13 @@ from scrapy.spiders import CrawlSpider, Rule
 
 class LiepinSpider(CrawlSpider):
     name = 'liepin'
-    allowed_domains = ['www.liepin.com']
-    start_urls = ['https://www.liepin.com/zhaopin']
+    allowed_domains = ['www.liepin.com', 'passport.liepin.com']
+    start_urls = ['https://www.liepin.com/zhaopin/?init=1&imscid=R000000058&d_sfrom=search_fp_bar&key=%E9%87%91%E8%9E%8D']
 
     rules = (
-        Rule(LinkExtractor(allow=r'Items/'), callback='parse_item', follow=True),
+        Rule(LinkExtractor(allow=r'www.liepin.com/zhaopin/'), callback='parse_item', follow=False),
     )
 
     def parse_item(self, response):
-        i = {}
-        #i['domain_id'] = response.xpath('//input[@id="sid"]/@value').extract()
-        #i['name'] = response.xpath('//div[@id="name"]').extract()
-        #i['description'] = response.xpath('//div[@id="description"]').extract()
-        return i
+        title = response.xpath('//ul[@class="sojob-list"]//h3/@title').extract_first()
+        print(title)
