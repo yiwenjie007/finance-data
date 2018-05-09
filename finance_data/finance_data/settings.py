@@ -52,9 +52,10 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'finance_data.middlewares.FinanceDataDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   'finance_data.middlewares.FinanceDataDownloaderMiddleware': 543,
+    'finance_data.middlewares.MyUserAgentMiddleware': 544,
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
