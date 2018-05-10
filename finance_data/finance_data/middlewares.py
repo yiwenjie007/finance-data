@@ -8,6 +8,8 @@
 from scrapy import signals
 from scrapy.downloadermiddlewares.useragent import UserAgentMiddleware
 import random
+import requests
+from urllib.parse import urljoin
 
 
 class FinanceDataSpiderMiddleware(object):
@@ -122,3 +124,26 @@ class MyUserAgentMiddleware(UserAgentMiddleware):
     def process_request(self, request, spider):
         agent = random.choice(self.user_agent)
         request.headers['User-Agent'] = agent
+
+
+class MyProxyMiddleware(object):
+    def __init__(self):
+        self.ip_url = 'http://localhost:5555/random'
+        self.base_url_ip = 'https://'
+        self.ip_list = []
+        for i in range(10):
+            ip = self.get_proxy()
+            self.ip_list.append(ip)
+
+    def process_request(self, request, spider):
+        ip = random.choice(self.ip_list)
+        if ip:
+            request.meta['proxy'] = ip
+
+    def get_proxy(self):
+        url_response = requests.get(self.ip_url)
+        if url_response.status_code == 200:
+            ip = self.base_url_ip + url_response.text
+            return ip
+        else:
+            None

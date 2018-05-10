@@ -55,6 +55,7 @@ ROBOTSTXT_OBEY = False
 DOWNLOADER_MIDDLEWARES = {
    'finance_data.middlewares.FinanceDataDownloaderMiddleware': 543,
     'finance_data.middlewares.MyUserAgentMiddleware': 544,
+    #'finance_data.middlewares.MyProxyMiddleware': 545,
 }
 
 # Enable or disable extensions
