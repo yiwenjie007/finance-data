@@ -17,6 +17,7 @@ class FinanceDataItem(scrapy.Item):
 class HaitouItem(scrapy.Item):
     company = scrapy.Field()
     start_time = scrapy.Field()
+    position = scrapy.Field()
     city = scrapy.Field()
     tag = scrapy.Field()
     url = scrapy.Field()

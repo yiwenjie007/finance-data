@@ -131,7 +131,7 @@ class MyProxyMiddleware(object):
         self.ip_url = 'http://localhost:5555/random'
         self.base_url_ip = 'https://'
         self.ip_list = []
-        for i in range(10):
+        for i in range(20):
             ip = self.get_proxy()
             self.ip_list.append(ip)
 

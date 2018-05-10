@@ -5,6 +5,7 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 from openpyxl import Workbook
+import time
 
 class FinanceDataPipeline(object):
     def process_item(self, item, spider):
@@ -14,7 +15,7 @@ class HaiTouPipeline(object):
     def __init__(self):
         self.excel_file = 'zhaopin.xlsx'
         self.item_list = []
-        self.header=['公司名称', '发布时间', '涉及城市', '文章标签', '信息地址']
+        self.header=['公司名称', '发布时间', '招聘职位', '涉及城市', '文章标签', '信息地址']
 
     def open_spider(self, spider):
         self.wb = Workbook()
@@ -39,8 +40,10 @@ class HaiTouPipeline(object):
         if j == 2:
             return None if not 'start_time' in item.keys() else item['start_time']
         if j == 3:
-            return None if not 'city' in item.keys() else item['city']
+            return None if not 'position' in item.keys() else item['position']
         if j == 4:
-            return None if not 'tag' in item.keys() else item['tag']
+            return None if not 'city' in item.keys() else item['city']
         if j == 5:
+            return None if not 'tag' in item.keys() else item['tag']
+        if j == 6:
             return None if not 'url' in item.keys() else item['url']

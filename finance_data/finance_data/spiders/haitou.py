@@ -28,12 +28,14 @@ class HaitouSpider(CrawlSpider):
     def parse_item(self, response):
         company = response.xpath('//div[@class="article-header"]/div[@class="article-logo"]/img/@alt').extract_first()
         start_time = remove_tags(response.xpath('//div[@class="article-info"]//div[contains(@class, "post-time")]//span').extract()[1])
+        position = remove_tags(','.join(response.xpath('//div[@class="position-item"]/span/text()').extract()))
         city = remove_tags(','.join(response.xpath('//div[@class="article-info"]//div[contains(@class, "cities")]//span').extract()[1:]))
         tag = remove_tags(','.join(response.xpath('//div[@class="article-info"]//div[contains(@class, "tags")]//span').extract()[1:]))
         url = response.url
         item = HaitouItem()
         item['company'] = company
         item['start_time'] = start_time
+        item['position'] = position
         item['city'] = city
         item['tag'] = tag
         item['url'] = url
