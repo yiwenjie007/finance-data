@@ -2,6 +2,8 @@
 import scrapy
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
+from finance_data.items import HaitouItem
+from w3lib.html import remove_tags
 
 
 class HaitouSpider(CrawlSpider):
@@ -12,6 +14,9 @@ class HaitouSpider(CrawlSpider):
     custom_settings = {
         'DOWNLOADER_MIDDLEWARES':{
             'finance_data.middlewares.MyProxyMiddleware': 545,
+        },
+        'ITEM_PIPELINES':{
+            'finance_data.pipelines.HaiTouPipeline': 301
         }
     }
 
@@ -21,4 +26,15 @@ class HaitouSpider(CrawlSpider):
     )
 
     def parse_item(self, response):
-        print(response.url)
+        company = response.xpath('//div[@class="article-header"]/div[@class="article-logo"]/img/@alt').extract_first()
+        start_time = remove_tags(response.xpath('//div[@class="article-info"]//div[contains(@class, "post-time")]//span').extract()[1])
+        city = remove_tags(','.join(response.xpath('//div[@class="article-info"]//div[contains(@class, "cities")]//span').extract()[1:]))
+        tag = remove_tags(','.join(response.xpath('//div[@class="article-info"]//div[contains(@class, "tags")]//span').extract()[1:]))
+        url = response.url
+        item = HaitouItem()
+        item['company'] = company
+        item['start_time'] = start_time
+        item['city'] = city
+        item['tag'] = tag
+        item['url'] = url
+        yield item

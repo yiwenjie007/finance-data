@@ -12,3 +12,11 @@ class FinanceDataItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass
+
+
+class HaitouItem(scrapy.Item):
+    company = scrapy.Field()
+    start_time = scrapy.Field()
+    city = scrapy.Field()
+    tag = scrapy.Field()
+    url = scrapy.Field()
